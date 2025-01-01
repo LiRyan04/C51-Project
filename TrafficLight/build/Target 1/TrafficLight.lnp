@@ -1,2 +1,0 @@
-".\build\Target 1\.obj\STARTUP.o",".\build\Target 1\.obj\main.o" TO ".\build\Target 1\TrafficLight"
-PRINT(".\build\Target 1\TrafficLight.map") REMOVEUNUSED
