@@ -17,13 +17,18 @@ sbit DIGIT_NORTH_2 = P2^1;
 sbit DIGIT_EAST_1 = P2^2;
 sbit DIGIT_EAST_2 = P2^3;
 
+// 按钮定义
+sbit BTN_NS_GREEN = P2^4; // 南北绿灯按钮
+sbit BTN_EW_GREEN = P2^5; // 东西绿灯按钮
+sbit BTN_ALL_RED = P2^6;  // 全红灯按钮
+
 // 全局变量
 unsigned char green_time = 5;
 unsigned char yellow_time = 3;
 unsigned char red_time = 8;
 unsigned char state = 0;
 unsigned char time_left = 0;
-
+bit is_paused = 0;  // 标志是否暂停
 
 // 定时器中断服务函数
 void timer0_ISR() interrupt 1 {
@@ -31,7 +36,7 @@ void timer0_ISR() interrupt 1 {
     TH0 = 0xFC;  // 重装计数初值
     TL0 = 0x66;
     count++;
-    if (count >= 1000) { // 每秒
+    if (count >= 1000 && !is_paused) { // 每秒，且未暂停
         count = 0;
         if (time_left > 0) {
             time_left--;
@@ -39,6 +44,8 @@ void timer0_ISR() interrupt 1 {
     }
 }
 
+
+// 延时函数
 void delayms(unsigned int ms) {
     unsigned int i, j;
     for (i = 0; i < ms; i++) {
@@ -48,6 +55,7 @@ void delayms(unsigned int ms) {
 
 // 交通灯状态更新函数
 void update_lights() {
+    if (is_paused) return; // 暂停时不更新灯光
     switch (state) {
         case 0: // 南北红灯，东西绿灯
             NORTH_RED = 1; NORTH_YELLOW = 0; NORTH_GREEN = 0;
@@ -104,6 +112,32 @@ void refresh_display(unsigned char north_time, unsigned char east_time) {
     display(east_time % 10, 0, 1); // 个位
 }
 
+// 外部中断0，暂停功能
+void ext0_ISR() interrupt 0 {
+    is_paused = 1;  // 设置为暂停
+    time_left = 0;  // 计时器归零
+    refresh_display(0, 0); // 无按钮按下时显示0
+    while (INT1 != 0) {
+        // 检查按钮状态并改变灯的状态
+        if (BTN_NS_GREEN == 0) { // 南北绿灯
+            NORTH_RED = 0; NORTH_YELLOW = 0; NORTH_GREEN = 1;
+            EAST_RED = 1; EAST_YELLOW = 0; EAST_GREEN = 0;
+        } else if (BTN_EW_GREEN == 0) { // 东西绿灯
+            NORTH_RED = 1; NORTH_YELLOW = 0; NORTH_GREEN = 0;
+            EAST_RED = 0; EAST_YELLOW = 0; EAST_GREEN = 1;
+        } else if (BTN_ALL_RED == 0) { // 全红灯
+            NORTH_RED = 1; NORTH_YELLOW = 0; NORTH_GREEN = 0;
+            EAST_RED = 1; EAST_YELLOW = 0; EAST_GREEN = 0;
+        }
+    }
+}
+
+// 外部中断1，启动功能
+void ext1_ISR() interrupt 2 {
+    is_paused = 0;  // 恢复运行
+    time_left = 0;  // 计时器归零
+}
+
 // 主程序
 void main() {
     unsigned char north_display_time, east_display_time;
@@ -111,12 +145,16 @@ void main() {
     TH0 = 0xFC;    // 初值
     TL0 = 0x66;
     ET0 = 1;       // 开启定时器中断
+    EX0 = 1;       // 开启外部中断0
+    EX1 = 1;       // 开启外部中断1
+    IT0 = 1;       // 下降沿触发中断0
+    IT1 = 1;       // 下降沿触发中断1
     EA = 1;        // 总中断开关
     TR0 = 1;       // 启动定时器0
 
     while (1) {
         update_lights();
-        while (time_left > 0) {
+        while (time_left > 0 && !is_paused) {
             if (state == 0) { // 南北红灯，东西绿灯
                 north_display_time = red_time - green_time + time_left;
                 east_display_time = time_left;
@@ -129,6 +167,8 @@ void main() {
             }
             refresh_display(north_display_time, east_display_time); // 刷新显示
         }
-        state = (state + 1) % 4; // 切换到下一个状态
+        if (!is_paused) {
+            state = (state + 1) % 4; // 切换到下一个状态
+        }
     }
 }
