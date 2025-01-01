@@ -1,0 +1,3 @@
+tool: KEIL_C51
+fileName: TrafficLight.map
+elfName: TrafficLight

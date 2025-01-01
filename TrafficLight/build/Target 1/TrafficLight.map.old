@@ -1,0 +1,185 @@
+LX51 LINKER/LOCATER V4.66.100.0                                                         01/01/2025  18:36:22  PAGE 1
+
+
+LX51 LINKER/LOCATER V4.66.100.0, INVOKED BY:
+C:\KEIL_V5\C51\BIN\LX51.EXE .\build\Target 1\.obj\STARTUP.o, .\build\Target 1\.obj\main.o TO .\build\Target 1\TrafficLig
+>> ht PRINT (.\build\Target 1\TrafficLight.map) REMOVEUNUSED
+
+
+CPU MODE:     8051 MODE
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  .\build\Target 1\.obj\STARTUP.o (?C_STARTUP)
+         COMMENT TYPE 1: A51 / ASM51 Assembler
+  .\build\Target 1\.obj\main.o (MAIN)
+         COMMENT TYPE 0: C51 V9.60.7.0
+  C:\KEIL_V5\C51\LIB\C51S.LIB (?C_INIT)
+         COMMENT TYPE 1: A51 / ASM51 Assembler
+
+
+ACTIVE MEMORY CLASSES OF MODULE:  .\build\Target 1\TrafficLight (?C_STARTUP)
+
+BASE        START       END         USED      MEMORY CLASS
+==========================================================
+C:000000H   C:000000H   C:00FFFFH   000200H   CODE
+I:000000H   I:000000H   I:0000FFH   000001H   IDATA
+I:000000H   I:000000H   I:00007FH   000012H   DATA
+I:000020H.0 I:000020H.0 I:00002FH.7 000000H.2 BIT
+C:000000H   C:000000H   C:00FFFFH   00000AH   CONST
+
+
+MEMORY MAP OF MODULE:  .\build\Target 1\TrafficLight (?C_STARTUP)
+
+
+START     STOP      LENGTH    ALIGN  RELOC    MEMORY CLASS   SEGMENT NAME
+=========================================================================
+
+* * * * * * * * * * *   D A T A   M E M O R Y   * * * * * * * * * * * * *
+000000H   000007H   000008H   ---    AT..     DATA           "REG BANK 0"
+000008H   00000EH   000007H   BYTE   UNIT     DATA           ?DT?MAIN
+00000FH   000011H   000003H   BYTE   UNIT     DATA           _DATA_GROUP_
+000012H.0 00001FH.7 00000EH.0 ---    ---      **GAP**
+000020H.0 000020H.1 000000H.2 BIT    UNIT     BIT            _BIT_GROUP_
+000020H.2 000020H   000000H.6 ---    ---      **GAP**
+000021H   000021H   000001H   BYTE   UNIT     IDATA          ?STACK
+
+* * * * * * * * * * *   C O D E   M E M O R Y   * * * * * * * * * * * * *
+000000H   000002H   000003H   ---    OFFS..   CODE           ?CO??C_STARTUP?0
+000003H   00000AH   000008H   ---    ---      **GAP**
+00000BH   00000DH   000003H   BYTE   OFFS..   CODE           ?MAIN?0000B
+00000EH   000099H   00008CH   BYTE   UNIT     CODE           ?C_C51STARTUP
+00009AH   0000E5H   00004CH   BYTE   UNIT     CODE           ?PR?MAIN?MAIN
+0000E6H   00012EH   000049H   BYTE   UNIT     CODE           ?PR?UPDATE_LIGHTS?MAIN
+00012FH   00016AH   00003CH   BYTE   UNIT     CODE           ?PR?_REFRESH_DISPLAY?MAIN
+00016BH   0001A4H   00003AH   BYTE   UNIT     CODE           ?PR?_DISPLAY?MAIN
+0001A5H   0001D3H   00002FH   BYTE   UNIT     CODE           ?PR?TIMER0_ISR?MAIN
+0001D4H   0001F3H   000020H   BYTE   UNIT     CODE           ?PR?_DELAYMS?MAIN
+0001F4H   000207H   000014H   BYTE   UNIT     CODE           ?C_INITSEG
+000208H   000211H   00000AH   BYTE   UNIT     CONST          ?CO?MAIN
+
+
+
+OVERLAY MAP OF MODULE:   .\build\Target 1\TrafficLight (?C_STARTUP)
+
+
+FUNCTION/MODULE              BIT_GROUP   DATA_GROUP 
+--> CALLED FUNCTION/MODULE  START  STOP  START  STOP
+====================================================
+LX51 LINKER/LOCATER V4.66.100.0                                                       01/01/2025  18:36:22  PAGE 2
+
+
+?C_C51STARTUP               ----- -----  ----- -----
+  +--> MAIN/MAIN
+  +--> ?C_INITSEG
+
+MAIN/MAIN                   ----- -----  000FH 0010H
+  +--> UPDATE_LIGHTS/MAIN
+  +--> _REFRESH_DISPLAY/MAIN
+
+UPDATE_LIGHTS/MAIN          ----- -----  ----- -----
+
+_REFRESH_DISPLAY/MAIN       ----- -----  0011H 0011H
+  +--> _DISPLAY/MAIN
+
+_DISPLAY/MAIN               20H.0 20H.1  ----- -----
+  +--> _DELAYMS/MAIN
+
+_DELAYMS/MAIN               ----- -----  ----- -----
+
+?C_INITSEG                  ----- -----  ----- -----
+
+*** NEW ROOT **************
+
+TIMER0_ISR/MAIN             ----- -----  ----- -----
+
+
+
+PUBLIC SYMBOLS OF MODULE:  .\build\Target 1\TrafficLight (?C_STARTUP)
+
+
+      VALUE       CLASS    TYPE      PUBLIC SYMBOL NAME
+      =================================================
+      00000020H.0 BIT      BIT       ?_display?BIT
+      00000000H   NUMBER   ---       ?C?CODESEG
+      00000000H   NUMBER   ---       ?C?XDATASEG
+      01000055H   CODE     ---       ?C_START
+      01000000H   CODE     ---       ?C_STARTUP
+      010001D4H   CODE     ---       _delayms
+      0100016BH   CODE     ---       _display
+      0100012FH   CODE     ---       _refresh_display
+      0000000BH   DATA     BYTE      green_time
+      0100009AH   CODE     ---       main
+      0000000EH   DATA     BYTE      red_time
+      01000208H   CONST    ---       SEG_CODE
+      0000000AH   DATA     BYTE      state
+      0000000DH   DATA     BYTE      time_left
+      010001A5H   CODE     ---       timer0_ISR
+      010000E6H   CODE     ---       update_lights
+      0000000CH   DATA     BYTE      yellow_time
+
+
+
+SYMBOL TABLE OF MODULE:  .\build\Target 1\TrafficLight (?C_STARTUP)
+
+      VALUE       REP       CLASS    TYPE      SYMBOL NAME
+      ====================================================
+      ---         MODULE    ---      ---       ?C_STARTUP
+      01000000H   PUBLIC    CODE     ---       ?C_STARTUP
+
+      ---         MODULE    ---      ---       MAIN
+      0000000EH   PUBLIC    DATA     BYTE      red_time
+      0000000DH   PUBLIC    DATA     BYTE      time_left
+      0000000CH   PUBLIC    DATA     BYTE      yellow_time
+      0000000BH   PUBLIC    DATA     BYTE      green_time
+      0000000AH   PUBLIC    DATA     BYTE      state
+      01000208H   PUBLIC    CONST    ---       SEG_CODE
+LX51 LINKER/LOCATER V4.66.100.0                                                       01/01/2025  18:36:22  PAGE 3
+
+
+      0100009AH   PUBLIC    CODE     ---       main
+      0100012FH   PUBLIC    CODE     ---       _refresh_display
+      00000020H.0 PUBLIC    BIT      BIT       ?_display?BIT
+      0100016BH   PUBLIC    CODE     ---       _display
+      010000E6H   PUBLIC    CODE     ---       update_lights
+      010001D4H   PUBLIC    CODE     ---       _delayms
+      010001A5H   PUBLIC    CODE     ---       timer0_ISR
+
+      010001A5H   BLOCK     CODE     ---       LVL=0
+      010001A9H   BLOCK     CODE     NEAR LAB  LVL=1
+      00000008H   SYMBOL    DATA     VOID      count
+      ---         BLOCKEND  ---      ---       LVL=1
+      ---         BLOCKEND  ---      ---       LVL=0
+
+      010001D4H   BLOCK     CODE     ---       LVL=0
+      010001D4H   BLOCK     CODE     NEAR LAB  LVL=1
+      00000004H   SYMBOL    DATA     VOID      i
+      00000002H   SYMBOL    DATA     VOID      j
+      ---         BLOCKEND  ---      ---       LVL=1
+      ---         BLOCKEND  ---      ---       LVL=0
+
+      010000E6H   BLOCK     CODE     ---       LVL=0
+      ---         BLOCKEND  ---      ---       LVL=0
+
+      0100016BH   BLOCK     CODE     ---       LVL=0
+      0100016BH   BLOCK     CODE     NEAR LAB  LVL=1
+      00000007H   SYMBOL    DATA     VOID      digit
+      ---         BLOCKEND  ---      ---       LVL=1
+      ---         BLOCKEND  ---      ---       LVL=0
+
+      0100012FH   BLOCK     CODE     ---       LVL=0
+      ---         BLOCKEND  ---      ---       LVL=0
+
+      0100009AH   BLOCK     CODE     ---       LVL=0
+      0100009AH   BLOCK     CODE     NEAR LAB  LVL=1
+      0000000FH   SYMBOL    DATA     VOID      north_display_time
+      00000010H   SYMBOL    DATA     VOID      east_display_time
+      ---         BLOCKEND  ---      ---       LVL=1
+      ---         BLOCKEND  ---      ---       LVL=0
+
+      ---         MODULE    ---      ---       ?C_INIT
+      01000055H   PUBLIC    CODE     ---       ?C_START
+
+Program Size: data=19.2 xdata=0 const=10 code=512
+LX51 RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)
